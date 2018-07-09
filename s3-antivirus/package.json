@@ -1,0 +1,7 @@
+{
+  "name": "s3-antivirus",
+  "version": "0.0.1",
+  "dependencies": {
+    "aws-sdk": "latest"
+  }
+}
