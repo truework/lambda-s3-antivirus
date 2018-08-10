@@ -12,7 +12,7 @@ chmod +x build_lambda.sh
 ./build_lambda.sh
 ```
 
-The resulting file will be at 
+The resulting file will be at
 
 ```bash
 ./lambda.zip
@@ -26,8 +26,8 @@ You can customize some of the variable used throughout the program to your needs
 
 ```
 CLAMAV_BUCKET_NAME - Bucket where the definitions are stored
-PATH_TO_AV_DEFINITIONS - Folder where the definitions are stored. 
-``` 
+PATH_TO_AV_DEFINITIONS - Folder where the definitions are stored.
+```
 
 **Optional:**
 
@@ -38,6 +38,12 @@ STATUS_ERROR_PROCESSING_FILE - Value used to indicate that there was an error sc
 VIRUS_SCAN_STATUS_KEY - Key used to store the result of the virus scan (default: virusScanStatus)
 VIRUS_SCAN_TIMESTAMP_KEY - Key used to store  (default: virusScanTimestamp)
 ```
+
+### Additional information for Lambda configuration
+
+clamscan and freshclam require sufficent resources - 1024MB is recommended for both.
+
+S3 trigger should be configured via the lambda configuration and not via S3 events.
 
 #### License & Acknowledgements
 
