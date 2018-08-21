@@ -43,6 +43,30 @@ async function lambdaHandleEvent(event, context) {
     let s3ObjectKey = utils.extractKeyFromS3Event(event);
     let s3ObjectBucket = utils.extractBucketFromS3Event(event);
 
+    //Here to end of function can be functioned out for reuse.
+    await clamav.downloadAVDefinitions(constants.CLAMAV_BUCKET_NAME, constants.PATH_TO_AV_DEFINITIONS);
+
+    await downloadFileFromS3(s3ObjectKey, s3ObjectBucket);
+
+    let virusScanStatus = clamav.scanLocalFile(path.basename(s3ObjectKey));
+
+    var taggingParams = {
+        Bucket: s3ObjectBucket,
+        Key: s3ObjectKey,
+        Tagging: utils.generateTagSet(virusScanStatus)
+    };
+
+    try {
+        let uploadResult = await s3.putObjectTagging(taggingParams).promise();
+        utils.generateSystemMessage("Tagging successful");
+    } catch(err) {
+        console.log(err);
+    } finally {
+        return virusScanStatus;
+    }
+}
+
+async function scanS3Object(s3ObjectKey, s3ObjectBucket){
     await clamav.downloadAVDefinitions(constants.CLAMAV_BUCKET_NAME, constants.PATH_TO_AV_DEFINITIONS);
 
     await downloadFileFromS3(s3ObjectKey, s3ObjectBucket);
@@ -66,6 +90,7 @@ async function lambdaHandleEvent(event, context) {
 }
 
 module.exports = {
-    lambdaHandleEvent: lambdaHandleEvent
+    lambdaHandleEvent:  lambdaHandleEvent,
+    scanS3Object:       scanS3Object
 };
 
