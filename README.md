@@ -45,6 +45,10 @@ clamscan and freshclam require sufficent resources - 1024MB is recommended for b
 
 S3 trigger should be configured via the lambda configuration and not via S3 events.
 
+## Contributors
+
+- [Jamie Lediet](https://github.com/jlediet) 
+
 #### License & Acknowledgements
 
 The code is released under the Apache License 2.0, please find the details here:
