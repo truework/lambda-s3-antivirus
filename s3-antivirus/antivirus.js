@@ -10,6 +10,17 @@ const s3 = new AWS.S3();
 const utils = require('./utils');
 const constants = require('./constants');
 
+async function sizeOf(key, bucket) {
+    let res = await s3.headObject({ Key: key, Bucket: bucket }).promise();
+    return res.ContentLength;
+}
+
+async function isS3FileToBig(s3ObjectKey, s3ObjectBucket)
+{
+    let fileSize = await sizeOf(s3ObjectKey, s3ObjectBucket);
+    return (fileSize > constants.MAX_FILE_SIZE);
+}
+
 function downloadFileFromS3(s3ObjectKey, s3ObjectBucket) {
     const downloadDir = `/tmp/download`;
     if (!fs.existsSync(downloadDir)){
@@ -46,9 +57,18 @@ async function lambdaHandleEvent(event, context) {
     //Here to end of function can be functioned out for reuse.
     await clamav.downloadAVDefinitions(constants.CLAMAV_BUCKET_NAME, constants.PATH_TO_AV_DEFINITIONS);
 
-    await downloadFileFromS3(s3ObjectKey, s3ObjectBucket);
+    let virusScanStatus;
 
-    let virusScanStatus = clamav.scanLocalFile(path.basename(s3ObjectKey));
+    //You need to verify that you are not getting to git of a file
+    //at this point in time lambdas max out at 500MB storage.
+    if(await isS3FileToBig(s3ObjectKey, s3ObjectBucket)){
+        virusScanStatus = constants.STATUS_SKIPPED_FILE;
+    }
+    else{
+        await downloadFileFromS3(s3ObjectKey, s3ObjectBucket);
+        clamav.scanLocalFile(path.basename(s3ObjectKey));
+    }
+
 
     var taggingParams = {
         Bucket: s3ObjectBucket,
@@ -91,6 +111,8 @@ async function scanS3Object(s3ObjectKey, s3ObjectBucket){
 
 module.exports = {
     lambdaHandleEvent:  lambdaHandleEvent,
-    scanS3Object:       scanS3Object
+    scanS3Object:       scanS3Object,
+    isS3FileToBig:      isS3FileToBig,
+    sizeOf:             sizeOf
 };
 
