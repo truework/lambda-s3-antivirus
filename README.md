@@ -34,9 +34,11 @@ PATH_TO_AV_DEFINITIONS - Folder where the definitions are stored.
 ```
 STATUS_CLEAN_FILE - Value used to indicate that the file scanned was clean (default: CLEAN)
 STATUS_INFECTED_FILE - Value used to indicate that the file scanned was infected (default: INFECTED)
+STATUS_SKIPPED_FILE - Value used to indicate that the file could not be scanned.
 STATUS_ERROR_PROCESSING_FILE - Value used to indicate that there was an error scanning the file (default: ERROR)
 VIRUS_SCAN_STATUS_KEY - Key used to store the result of the virus scan (default: virusScanStatus)
 VIRUS_SCAN_TIMESTAMP_KEY - Key used to store  (default: virusScanTimestamp)
+MAX_FILE_SIZE - Value used to control the max size of a file that can be downloaded and scanned with out error.
 ```
 
 ### Additional information for Lambda configuration
@@ -47,7 +49,7 @@ S3 trigger should be configured via the lambda configuration and not via S3 even
 
 ## Contributors
 
-- [Jamie Lediet](https://github.com/jlediet) 
+- [Jamie Lediet](https://github.com/jlediet)
 
 #### License & Acknowledgements
 
