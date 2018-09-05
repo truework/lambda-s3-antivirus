@@ -38,7 +38,7 @@ STATUS_SKIPPED_FILE - Value used to indicate that the file could not be scanned.
 STATUS_ERROR_PROCESSING_FILE - Value used to indicate that there was an error scanning the file (default: ERROR)
 VIRUS_SCAN_STATUS_KEY - Key used to store the result of the virus scan (default: virusScanStatus)
 VIRUS_SCAN_TIMESTAMP_KEY - Key used to store  (default: virusScanTimestamp)
-MAX_FILE_SIZE - Value used to control the max size of a file that can be downloaded and scanned with out error. (default: 300MB)
+MAX_FILE_SIZE - Value used to control the max size of a file that can be downloaded and scanned without error. (default: 300MB)
 ```
 
 ### Additional information for Lambda configuration

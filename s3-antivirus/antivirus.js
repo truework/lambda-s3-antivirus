@@ -23,11 +23,11 @@ async function sizeOf(key, bucket) {
 
 /**
  * Check if S3 object is larger then the MAX_FILE_SIZE set.
- * @param {sting} s3ObjectKey       Key of S3 Object
+ * @param {string} s3ObjectKey       Key of S3 Object
  * @param {string} s3ObjectBucket   Bucket of S3 object
  * @return {boolean} True if S3 object is larger then MAX_FILE_SIZE
  */
-async function isS3FileToBig(s3ObjectKey, s3ObjectBucket)
+async function isS3FileTooBig(s3ObjectKey, s3ObjectBucket)
 {
     let fileSize = await sizeOf(s3ObjectKey, s3ObjectBucket);
     return (fileSize > constants.MAX_FILE_SIZE);
@@ -68,9 +68,9 @@ async function lambdaHandleEvent(event, context) {
 
     let virusScanStatus;
 
-    //You need to verify that you are not getting to large a file
+    //You need to verify that you are not getting too large a file
     //currently lambdas max out at 500MB storage.
-    if(await isS3FileToBig(s3ObjectKey, s3ObjectBucket)){
+    if(await isS3FileTooBig(s3ObjectKey, s3ObjectBucket)){
         virusScanStatus = constants.STATUS_SKIPPED_FILE;
     }
     else{
@@ -122,7 +122,7 @@ async function scanS3Object(s3ObjectKey, s3ObjectBucket){
 module.exports = {
     lambdaHandleEvent:  lambdaHandleEvent,
     scanS3Object:       scanS3Object,
-    isS3FileToBig:      isS3FileToBig,
+    isS3FileTooBig:      isS3FileTooBig,
     sizeOf:             sizeOf
 };
 

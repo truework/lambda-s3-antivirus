@@ -10,7 +10,7 @@ async function lambdaHandleEvent(event, context) {
     let s3ObjectBucket = utils.extractBucketFromApiEvent(event);
 
     let virusScanStatus =
-     await av.isS3FileToBig(s3ObjectKey, s3ObjectBucket) ? constants.STATUS_SKIPPED_FILE : await av.scanS3Object(s3ObjectKey, s3ObjectBucket);
+     await av.isS3FileTooBig(s3ObjectKey, s3ObjectBucket) ? constants.STATUS_SKIPPED_FILE : await av.scanS3Object(s3ObjectKey, s3ObjectBucket);
 
     return virusScanStatus;
 }
