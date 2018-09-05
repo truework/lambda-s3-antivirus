@@ -70,6 +70,36 @@ function extractBucketFromS3Event(s3Event) {
 }
 
 /**
+ * Extract the key from an Api Gateway event.
+ * @param  Invoked from 3rd party, Inbound Api event.
+ * @return {string} decoded key.
+ */
+function extractKeyFromApiEvent(s3Event) {
+    let key = s3Event.s3Key;
+
+    if (!key) {
+        throw new Error("Unable to retrieve key information from the api event");
+    }
+
+    return key.replace(/\+/g,' ');
+}
+
+/**
+ * Extract the bucket from an Api Gateway event.
+ * @param  Invoked from 3rd party, Inbound Api event.
+ * @return {string} Bucket
+ */
+function extractBucketFromApiEvent(s3Event) {
+    let bucketName = s3Event.s3Bucket;
+
+    if (!bucketName) {
+        throw new Error("Unable to retrieve bucket information from the api event");
+    }
+
+    return bucketName;
+}
+
+/**
  * Generates & logs a system message (simple --- the message here ---)
  * @param systemMessage Inbound message to log and generate.
  * @return {string} Formatted message.
@@ -85,5 +115,7 @@ module.exports = {
     cleanupFolder           : cleanupFolder,
     extractKeyFromS3Event   : extractKeyFromS3Event,
     extractBucketFromS3Event: extractBucketFromS3Event,
+    extractKeyFromApiEvent   : extractKeyFromApiEvent,
+    extractBucketFromApiEvent: extractBucketFromApiEvent,
     generateSystemMessage   : generateSystemMessage
 };
