@@ -47,7 +47,7 @@ clamscan and freshclam require sufficent resources - 1024MB is recommended for b
 
 S3 trigger should be configured via the lambda configuration and not via S3 events.
 
-### Set up and utilize invokable lambada endpoint
+### Set up and utilize invokable lambda endpoint
 
 1. Build the lambda zip. See  "Building the lambada function".
 
@@ -58,6 +58,8 @@ S3 trigger should be configured via the lambda configuration and not via S3 even
 ```
 api.lambdaHandleEvent
 ```
+
+#### Invoking the lambda Endpoint
 **Example Json Data Needed For api.lambdaHandleEvent**
 ```json
 {
