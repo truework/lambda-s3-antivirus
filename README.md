@@ -49,7 +49,7 @@ S3 trigger should be configured via the lambda configuration and not via S3 even
 
 ### Set up and utilize invokable lambda endpoint
 
-1. Build the lambda zip. See  "Building the lambada function".
+1. Build the lambda zip. See  "Building the lambda function".
 
 2. In AWS create a lambda function using the lambda.zip which can act upon S3 buckets of your choice.
  - This is done in the same fashion as in the attached blog post for the Downloader and Scanner.
