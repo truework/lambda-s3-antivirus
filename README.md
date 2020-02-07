@@ -4,6 +4,10 @@ Link to the Truework blog post for more details
 
 https://blog.truework.com/2018-07-09-s3-antivirus-lambda-function/
 
+## Authors
+
+- Victor Kabdebon (https://www.linkedin.com/in/victorkabdebon/)
+
 
 ## Building the Lambda function
 
