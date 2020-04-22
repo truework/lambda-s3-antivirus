@@ -18,8 +18,6 @@ docker exec -it -w /home/docker s3-antivirus-builder yum install -y https://dl.f
 docker exec -it -w /home/docker s3-antivirus-builder yum-config-manager --enable epel
 docker exec -it -w /home/docker s3-antivirus-builder yumdownloader -x \*i686 --archlist=x86_64 clamav clamav-lib clamav-update json-c pcre2 libxml2 bzip2-libs libtool-ltdl xz-libs 
 docker exec -it -w /home/docker s3-antivirus-builder yum update -y
-docker exec -it -w /home/docker s3-antivirus-builder yum clean all
-docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rm -rf /var/cache/yum"
 docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "echo 'folder content' && ls -la"
 docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio clamav-0*.rpm | cpio -idmv"
 docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio clamav-lib*.rpm | cpio -idmv"
@@ -30,6 +28,10 @@ docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio libxml
 docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio bzip2-libs*.rpm | cpio -idmv"
 docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio libtool-ltdl*.rpm | cpio -idmv"
 docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio xz-libs*.rpm | cpio -idmv"
+docker exec -it -w /home/docker s3-antivirus-builder yum clean all
+docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rm -rf /var/cache/yum"
+docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rm -rf /usr/share/doc"
+
 
 docker stop s3-antivirus-builder
 docker rm s3-antivirus-builder
