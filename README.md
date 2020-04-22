@@ -12,7 +12,6 @@ https://blog.truework.com/2018-07-09-s3-antivirus-lambda-function/
 ## Building the Lambda function
 
 ```bash
-chmod +x build_lambda.sh
 ./build_lambda.sh
 ```
 
