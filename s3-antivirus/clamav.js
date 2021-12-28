@@ -14,7 +14,7 @@ const S3 = new AWS.S3();
  */
 function updateAVDefinitonsWithFreshclam() {
     try {
-        let executionResult = execSync(`${constants.PATH_TO_FRESHCLAM} --config-file=${constants.FRESHCLAM_CONFIG} --datadir=${constants.FRESHCLAM_WORK_DIR}`);
+        let executionResult = execSync(`${constants.PATH_TO_FRESHCLAM} --config-file=${constants.FRESHCLAM_CONFIG} --datadir=${constants.FRESHCLAM_WORK_DIR} --user $(whoami)`);
         
         utils.generateSystemMessage('Update message');
         console.log(executionResult.toString());

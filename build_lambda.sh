@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 LAMBDA_FILE="lambda.zip"
+CLAM_VERSION="0.104.1"
 
 rm -f ${LAMBDA_FILE}
 
@@ -13,19 +14,8 @@ docker start s3-antivirus-builder
 
 echo "-- Updating, downloading and unpacking clamAV and ClamAV update --"
 docker exec -it -w /home/docker s3-antivirus-builder yum install -y cpio yum-utils
-docker exec -it -w /home/docker s3-antivirus-builder yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-docker exec -it -w /home/docker s3-antivirus-builder yum-config-manager --enable epel
-docker exec -it -w /home/docker s3-antivirus-builder yumdownloader -x \*i686 --archlist=x86_64 clamav clamav-lib clamav-update json-c pcre2 libxml2 bzip2-libs libtool-ltdl xz-libs 
-docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "echo 'folder content' && ls -la"
-docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio clamav-0*.rpm | cpio -idmv"
-docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio clamav-lib*.rpm | cpio -idmv"
-docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio clamav-update*.rpm | cpio -idmv"
-docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio json-c*.rpm | cpio -idmv"
-docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio pcre2*.rpm | cpio -idmv"
-docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio libxml2*.rpm | cpio -idmv"
-docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio bzip2-libs*.rpm | cpio -idmv"
-docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio libtool-ltdl*.rpm | cpio -idmv"
-docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio xz-libs*.rpm | cpio -idmv"
+docker exec -it -w /home/docker s3-antivirus-builder curl -L -O https://www.clamav.net/downloads/production/clamav-${CLAM_VERSION}.linux.x86_64.rpm -A "Blocking common Linux agents is mean 1.0"
+docker exec -it -w /home/docker s3-antivirus-builder /bin/sh -c "rpm2cpio clamav-${CLAM_VERSION}.linux.x86_64.rpm | cpio -idmv"
 
 docker stop s3-antivirus-builder
 docker rm s3-antivirus-builder
@@ -33,7 +23,7 @@ docker rm s3-antivirus-builder
 mkdir ./bin
 
 echo "-- Copying the executables and required libraries --"
-cp clamav/usr/bin/clamscan clamav/usr/bin/freshclam clamav/usr/lib64/* bin/.
+cp clamav/usr/local/bin/clamscan clamav/usr/local/bin/freshclam clamav/usr/local/lib65/*.so* bin/.
 
 echo "-- Cleaning up ClamAV folder --"
 rm -rf clamav
