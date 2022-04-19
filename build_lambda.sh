@@ -23,7 +23,7 @@ docker rm s3-antivirus-builder
 mkdir ./bin
 
 echo "-- Copying the executables and required libraries --"
-cp clamav/usr/local/bin/clamscan clamav/usr/local/bin/freshclam clamav/usr/local/lib65/*.so* bin/.
+cp clamav/usr/local/bin/clamscan clamav/usr/local/bin/freshclam clamav/usr/local/lib64/*.so* bin/.
 
 echo "-- Cleaning up ClamAV folder --"
 rm -rf clamav
